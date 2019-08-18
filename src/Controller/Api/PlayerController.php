@@ -30,18 +30,4 @@ class PlayerController extends AbstractFOSRestController
         $this->getDoctrine()->getManager()->flush();
         return View::create($player, Response::HTTP_CREATED);
     }
-
-    /**
-     * @Rest\Post("/game/{id}")
-     * @param Request $request
-     * @param int $id
-     * @return View
-     */
-    public function postAddPlayerToGame(Request $request, string $id): View
-    {
-        $player = $this->getDoctrine()->getManager()->getRepository(PlayerRepository::class)->find($id);
-        $this->getDoctrine()->getManager()->persist($player);
-        return View::create($player, Response::HTTP_CREATED);
-    }
-
 }

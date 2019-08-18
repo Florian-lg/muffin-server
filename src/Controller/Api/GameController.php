@@ -16,7 +16,6 @@ class GameController extends AbstractFOSRestController
 {
     /**
      * @Rest\Post("/new-game")
-     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"game"})
      * @param Request $request
      * @return View
      */
@@ -31,8 +30,10 @@ class GameController extends AbstractFOSRestController
     /**
      * @Rest\Post("/game-add-player/{id}")
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"game"})
+     * @param GameRepository $gameRepository
+     * @param PlayerRepository $playerRepository
      * @param Request $request
-     * @param string $id id of the last created on the guild
+     * @param string $id
      * @return View
      */
     public function postGameAddPlayer(GameRepository $gameRepository, PlayerRepository $playerRepository, Request $request, string $id): View
