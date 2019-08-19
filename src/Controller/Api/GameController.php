@@ -16,10 +16,9 @@ class GameController extends AbstractFOSRestController
 {
     /**
      * @Rest\Post("/new-game")
-     * @param Request $request
      * @return View
      */
-    public function postNewGameAction(Request $request): View
+    public function postNewGameAction(): View
     {
         $game = new Game();
         $this->getDoctrine()->getManager()->persist($game);
@@ -44,5 +43,30 @@ class GameController extends AbstractFOSRestController
         $this->getDoctrine()->getManager()->persist($game);
         $this->getDoctrine()->getManager()->flush();
         return View::create($game, Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Rest\Get("/last-game")
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"game"})
+     * @param GameRepository $gameRepository
+     * @return View
+     */
+    public function getLastCreatedGame(GameRepository $gameRepository): View
+    {
+        $game = $gameRepository->findLastGame();
+        return new View($game, Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\Get("/game-players/{id}")
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"game"})
+     * @param GameRepository $gameRepository
+     * @param string $id
+     * @return View
+     */
+    public function getGamePlayer(GameRepository $gameRepository, string $id): View
+    {
+        $game = $gameRepository->findPlayersInGame($id);
+        return new View($game, Response::HTTP_OK);
     }
 }
